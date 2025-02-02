@@ -20,5 +20,5 @@ class DishCategory (
         joinColumns = [JoinColumn(name = "idDishCategory")],
         inverseJoinColumns = [JoinColumn(name = "idDish")]
     )
-    val roles: MutableSet<Dish> = mutableSetOf()
+    val dishes: MutableSet<Dish> = mutableSetOf()
 )
