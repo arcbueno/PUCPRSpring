@@ -1,6 +1,5 @@
 package br.pucpr.authserver.dishcategory.controller
 
-import br.pucpr.authserver.dishcategory.DishCategory
 import br.pucpr.authserver.dishcategory.DishCategoryService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity

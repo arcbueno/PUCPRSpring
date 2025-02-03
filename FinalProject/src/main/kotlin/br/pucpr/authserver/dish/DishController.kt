@@ -1,6 +1,5 @@
 package br.pucpr.authserver.dish
 
-import br.pucpr.authserver.users.controller.responses.UserResponse
 import br.pucpr.authserver.utils.SortDir
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -19,7 +18,7 @@ class DishController(val dishService: DishService) {
     @GetMapping
     fun findAll(@RequestParam dir: String = "ASC", @RequestParam category: String? = null): ResponseEntity<List<Dish>> {
         val sortDir = SortDir.findOrNull(dir) ?: return ResponseEntity.badRequest().build()
-        return dishService.findAll(sortDir, category).let { ResponseEntity.ok(it) };
+        return dishService.findAll(sortDir, category).let { ResponseEntity.ok(it) }
     }
 
     @DeleteMapping("/{id}")

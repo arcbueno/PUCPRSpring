@@ -1,6 +1,5 @@
 package br.pucpr.authserver.dish
 
-import br.pucpr.authserver.dishcategory.DishCategoryService
 import br.pucpr.authserver.utils.SortDir
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
