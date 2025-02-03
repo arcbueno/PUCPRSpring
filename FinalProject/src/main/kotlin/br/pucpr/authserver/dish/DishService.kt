@@ -19,4 +19,6 @@ class DishService(val dishRepository: DishRepository) {
 
     fun save(dish: Dish): Dish = dishRepository.save(dish)
     fun findByIdOrNull(id: Long) = dishRepository.findByIdOrNull(id)
+    fun delete(id: Long) =
+        dishRepository.deleteById(id)
 }

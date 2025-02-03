@@ -21,4 +21,9 @@ class DishController(val dishService: DishService) {
         val sortDir = SortDir.findOrNull(dir) ?: return ResponseEntity.badRequest().build()
         return dishService.findAll(sortDir, category).let { ResponseEntity.ok(it) };
     }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long): ResponseEntity<Void> =
+        dishService.delete(id)
+            .let { ResponseEntity.ok().build() }
 }
