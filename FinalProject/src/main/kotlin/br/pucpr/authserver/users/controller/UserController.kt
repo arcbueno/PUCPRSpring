@@ -1,7 +1,6 @@
 package br.pucpr.authserver.users.controller
 
-import br.pucpr.authserver.users.SortDir
-import br.pucpr.authserver.users.User
+import br.pucpr.authserver.utils.SortDir
 import br.pucpr.authserver.users.UserService
 import br.pucpr.authserver.users.controller.requests.CreateUserRequest
 import br.pucpr.authserver.users.controller.responses.UserResponse
