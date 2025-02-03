@@ -25,7 +25,7 @@ class DishCategoryController(
     @PutMapping("/{id}/dishes/{dishId}")
     fun addDish(@PathVariable("dishId") dishId: Long, @PathVariable("id") id: Long) =
         // TODO: Testar e gravar video
-        dishCategoryService.addDish(dishId, id)
+        dishCategoryService.addOrRemoveDish(dishId, id)
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long) =
