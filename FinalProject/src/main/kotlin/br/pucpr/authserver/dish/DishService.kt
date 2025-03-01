@@ -7,13 +7,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class DishService(val dishRepository: DishRepository) {
-    fun findAll(dir: SortDir, category: String?): List<Dish> {
+    fun findAll(dir: SortDir, category: String?, isAdmin: Boolean): List<Dish> {
+        var list: List<Dish> = mutableListOf()
         if (!category.isNullOrBlank())
-            return dishRepository.findAllByCategory(category)
-        return when (dir) {
-            SortDir.ASC -> dishRepository.findAll(Sort.by("name"))
-            SortDir.DESC -> dishRepository.findAll(Sort.by("name").descending())
+            list = dishRepository.findAllByCategory(category)
+        else {
+            list = when (dir) {
+                SortDir.ASC -> dishRepository.findAll(Sort.by("name"))
+                SortDir.DESC -> dishRepository.findAll(Sort.by("name").descending())
+            }
         }
+        return if (isAdmin) list else list.filter { !it.isDisabled }
     }
 
     fun save(dish: Dish): Dish = dishRepository.save(dish)
