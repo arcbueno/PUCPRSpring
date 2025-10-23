@@ -1,12 +1,19 @@
 package br.pucpr.authserver.users.controller
 
-import br.pucpr.authserver.utils.SortDir
+import br.pucpr.authserver.security.UserToken
+import br.pucpr.authserver.users.User
 import br.pucpr.authserver.users.UserService
 import br.pucpr.authserver.users.controller.requests.CreateUserRequest
+import br.pucpr.authserver.users.controller.requests.LoginRequest
+import br.pucpr.authserver.users.controller.responses.LoginResponse
 import br.pucpr.authserver.users.controller.responses.UserResponse
+import br.pucpr.authserver.utils.SortDir
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -41,12 +48,27 @@ class UserController(
             ?: ResponseEntity.notFound().build()
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long): ResponseEntity<Void> =
-        userService.delete(id)
-            .let { ResponseEntity.ok().build() }
+    @SecurityRequirement(name = "AuthServer")
+    @PreAuthorize("hasRole('ADMIN')")
+    fun delete(@PathVariable id: String, auth: Authentication): ResponseEntity<Void> {
+        // Delete de usuários só podem ocorrer por administradores
+        // e não é possível deletar o próprio usuário
+        val user = auth.principal as UserToken
+        if(id == "me") return ResponseEntity.badRequest().build()
+        if (user.id == id.toLong()) return ResponseEntity.badRequest().build()
+        return userService.delete(id.toLong()).let { ResponseEntity.ok().build() }
+    }
 
     @PutMapping("/{id}/roles/{role}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "AuthServer")
     fun grant(@PathVariable id: Long, @PathVariable role: String): ResponseEntity<Void> =
         if (userService.addRole(id, role)) ResponseEntity.ok().build()
         else ResponseEntity.noContent().build()
+
+    @PostMapping("/login")
+    fun login(@Valid @RequestBody user: LoginRequest) =
+        userService.login(user.email!!, user.password!!)
+            ?.let { ResponseEntity.ok().body(it) }
+            ?: ResponseEntity.notFound().build()
 }

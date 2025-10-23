@@ -19,5 +19,8 @@ class Dish (
     @NotBlank
     var price: Double,
 
+    @NotBlank
+    var isDisabled: Boolean,
+
     var discount: Int?,
 )
