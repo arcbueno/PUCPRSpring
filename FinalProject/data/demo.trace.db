@@ -1,0 +1,6 @@
+2025-02-03 11:05:48.858843Z jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ROLE" not found; SQL statement:
+select r1_0.name,r1_0.description from role r1_0 where r1_0.name=? [42102-232]
+2025-02-03 11:06:30.984213Z jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ROLE" not found; SQL statement:
+select r1_0.name,r1_0.description from role r1_0 where r1_0.name=? [42102-232]
