@@ -1,9 +1,9 @@
 plugins {
     id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
-    kotlin("plugin.jpa") version "1.9.25"
+    kotlin("jvm") version "2.1.0"
+    kotlin("plugin.spring") version "2.1.0"
+    kotlin("plugin.jpa") version "2.1.0"
 }
 
 group = "br.pucpr"
@@ -56,7 +56,8 @@ dependencies {
 
     testImplementation("io.mockk:mockk:1.14.6")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:6.0.3")
-    runtimeOnly("io.kotest:kotest-assertions-core:6.0.3")
+    testImplementation("io.kotest:kotest-assertions-core:6.0.3")
+    testImplementation("io.kotest:kotest-property-jvm:6.0.3")
 }
 
 kotlin {

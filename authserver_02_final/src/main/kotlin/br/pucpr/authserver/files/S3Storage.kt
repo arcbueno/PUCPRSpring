@@ -49,11 +49,11 @@ class S3Storage : FileStorage {
             .objectContent
     )
 
-    override fun urlFor(name: String): String =
-        "https://$DISTRIBUTION.cloudfront.net/${name}"
+    override fun urlFor(name: String): String = "https://$PUBLIC.s3.amazonaws.com/${name}"
+//        "https://$DISTRIBUTION.cloudfront.net/${name}"
 
     companion object {
-        private const val PUBLIC = "vinigodoy-authserver-public"
+        private const val PUBLIC = "arcbueno-authserver-public"
         private const val DISTRIBUTION = "d2m8kv68a4r9i3"
     }
 }

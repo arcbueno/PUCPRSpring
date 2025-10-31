@@ -34,7 +34,7 @@ class AvatarService(
 
     companion object {
         const val FOLDER = "avatars"
-        const val DEFAULT_AVATAR = "default.jpg"
+        const val DEFAULT_AVATAR = "default.png"
         private val log = LoggerFactory.getLogger(AvatarService::class.java)
     }
 }
