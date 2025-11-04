@@ -18,7 +18,7 @@ class User(
 
     var name: String = "",
 
-    var avatar: String = AvatarService.DEFAULT_AVATAR,
+    var avatar: String = "",
 
     @ManyToMany
     @JoinTable(

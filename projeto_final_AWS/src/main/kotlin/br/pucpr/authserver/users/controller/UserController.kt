@@ -84,4 +84,10 @@ class UserController(val service: UserService) {
         service.saveAvatar(id, avatar)
             .also { ResponseEntity.ok().build<Void>() }
 
+    @SecurityRequirement(name = "AuthServer")
+    @PreAuthorize("permitAll()")
+    @DeleteMapping("/{id}/avatar")
+    fun deleteAvatar(@PathVariable id: Long): ResponseEntity<Void> =
+        if (service.deleteAvatar(id)) ResponseEntity.ok().build()
+        else ResponseEntity.notFound().build()
 }

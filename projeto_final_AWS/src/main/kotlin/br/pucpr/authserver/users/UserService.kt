@@ -17,14 +17,30 @@ class UserService(
     val avatarService: AvatarService,
     val repository: UserRepository,
     val roleRepository: RoleRepository,
-    val jwt: Jwt
+    val jwt: Jwt,
+    val avatarHelperService: AvatarHelperService
 ) {
     fun insert(user: User): User {
         if (repository.findByEmail(user.email) != null) {
             throw BadRequestException("User already exists")
         }
-        return repository.save(user)
-            .also { log.info("User inserted: {}", it.id) }
+
+        val newUser = repository.save(user)
+        var finalUser = insertNewAvatar(newUser)
+        log.info("User inserted: {}", newUser.id)
+        finalUser = repository.save(finalUser!!)
+        return finalUser ?: newUser
+    }
+
+    private fun insertNewAvatar(user: User): User? {
+        val imageResult = avatarHelperService.fetchAvatarImage(user.email, user.name)
+        if(imageResult != null) {
+            user.avatar = avatarService.save(user,imageResult)
+        }
+        else {
+            user.avatar=AvatarService.DEFAULT_AVATAR
+        }
+        return repository.findByEmail(user.email)
     }
 
     fun update(id: Long, name: String): User? {
@@ -34,7 +50,28 @@ class UserService(
         return repository.save(user)
     }
 
-    fun findAll(dir: SortDir = SortDir.ASC): List<User> = when (dir) {
+    fun findAll(dir: SortDir = SortDir.ASC): List<User> {
+        var users = findAllUsers()
+        // Update users that does not have avatar set
+        var anyUserUpdated = false;
+        if(users.any { it -> it.avatar.isEmpty() }) {
+            users.forEach {
+                if(it.avatar.isEmpty()) {
+                    val userResult = insertNewAvatar(it)
+                    repository.save(userResult!!)
+                    anyUserUpdated = true
+                }
+            }
+        }
+        // If any user was updated, fetch all users again to get the updated avatars
+        if(anyUserUpdated) {
+          users = findAllUsers(dir)
+        }
+
+        return users
+    }
+
+    private fun findAllUsers(dir: SortDir = SortDir.ASC) = when (dir) {
         SortDir.ASC -> repository.findAll(Sort.by("name").ascending())
         SortDir.DESC -> repository.findAll(Sort.by("name").descending())
     }
@@ -53,6 +90,15 @@ class UserService(
         }
         repository.delete(user)
         log.info("User deleted: {}", user.id)
+        return true
+    }
+
+    fun deleteAvatar(id: Long):Boolean {
+        val user = findByIdOrThrow(id)
+        avatarService.delete(user.avatar)
+        repository.save(user)
+        val userResult = insertNewAvatar(user)
+        repository.save(userResult!!)
         return true
     }
 

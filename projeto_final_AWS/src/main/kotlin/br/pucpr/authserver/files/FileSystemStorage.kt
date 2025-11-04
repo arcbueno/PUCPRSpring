@@ -46,6 +46,16 @@ class FileSystemStorage : FileStorage {
                     StandardCharsets.UTF_8
                 )
 
+    override fun delete(path: String) {
+        val filePath = Paths.get(ROOT, path)
+        try {
+            Files.deleteIfExists(filePath)
+            log.info("deleted $filePath")
+        } catch (e: Exception) {
+            log.error("error deleting file $filePath", e)
+        }
+    }
+
     companion object {
         val ROOT = "./fs"
         val log = LoggerFactory.getLogger(FileSystemStorage::class.java)!!

@@ -28,6 +28,10 @@ class AvatarService(
             DEFAULT_AVATAR
         }
 
+    fun delete(file: String) {
+        storage.delete(file)
+    }
+
     fun load(name: String) = storage.load(name)
 
     fun urlFor(path: String) = storage.urlFor("$FOLDER/$path")

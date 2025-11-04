@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "br.pucpr"
-version = "0.0.3-SNAPSHOT"
+version = "0.0.4-SNAPSHOT"
 
 java {
     toolchain {
@@ -46,6 +46,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.springframework.security:spring-security-test")
+    implementation("org.springframework:spring-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")

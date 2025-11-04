@@ -50,6 +50,9 @@ class S3Storage : FileStorage {
     )
 
     override fun urlFor(name: String): String = "https://$PUBLIC.s3.amazonaws.com/${name}"
+    override fun delete(path: String) {
+        s3.deleteObject(PUBLIC, path)
+    }
 //        "https://$DISTRIBUTION.cloudfront.net/${name}"
 
     companion object {
