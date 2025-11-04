@@ -2,7 +2,7 @@
 
 **Disciplina:** Serviços Mobile em Cloud AWS </br>
 **Professor:** Vinicius Godoy  </br>
-**Aluno:** Pedro Augusto Corrêa Bueno  </br>
+**Aluno:** Pedro Augusto Reis Corrêa Bueno  </br>
 **Link da apresentação:** https://youtu.be/dqyniy770FU
 
 Projeto final escolhido: Avatares avançados
